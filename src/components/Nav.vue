@@ -5,10 +5,10 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="#">Agendamentos</b-nav-item>
-                    <b-nav-item href="#">Pacientes</b-nav-item>
-                    <b-nav-item href="#">Médicos</b-nav-item>
-                    <b-nav-item href="#">Secretárias</b-nav-item>
+                    <b-nav-item to="/agendamentos">Agendamentos</b-nav-item>
+                    <b-nav-item to="/pacientes">Pacientes</b-nav-item>
+                    <b-nav-item to="/medicos">Médicos</b-nav-item>
+                    <b-nav-item to="/secretarias">Secretárias</b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav class="ml-auto">
                     <b-button variant="outline-light">Sair</b-button>
