@@ -3,32 +3,57 @@
     <Nav />
     <div class="container-fluid">
       <div class="my-3">
-        <b-form>
+        <b-form @submit="createDoctor">
           <b-form-group
             label="Nome Completo"
             label-for="nomeCompleto"
             class="mb-3"
           >
-            <b-input id="nomeCompleto" type="text" required></b-input>
+            <b-input 
+            id="nomeCompleto" 
+            type="text" 
+            required
+            v-model="doctor.nomeCompleto"
+            ></b-input>
           </b-form-group>
           <div class="row">
             <b-form-group label="RG" label-for="rg" class="mb-3 col-6">
-              <b-input id="rg" type="text" required></b-input>
+              <b-input 
+              id="rg" 
+              type="text" 
+              required
+              v-model="doctor.rg"
+              ></b-input>
             </b-form-group>
             <b-form-group label="CPF" label-for="cpf" class="mb-3 col-6">
-              <b-input id="cpf" type="text" required></b-input>
+              <b-input 
+              id="cpf" 
+              type="text" 
+              required
+              v-model="doctor.cpf"
+              ></b-input>
             </b-form-group>
           </div>
           <div class="row">
             <b-form-group label="CRM" label-for="crm" class="mb-3 col-4">
-              <b-input id="crm" type="text" required></b-input>
+              <b-input 
+              id="crm" 
+              type="text" 
+              required
+              v-model="doctor.crm"
+              ></b-input>
             </b-form-group>
             <b-form-group
               label="Endereço"
               label-for="endereco"
               class="mb-3 col-8"
             >
-              <b-input id="endereco" type="text" required></b-input>
+              <b-input 
+              id="endereco" 
+              type="text" 
+              required
+              v-model="doctor.endereco"
+              ></b-input>
             </b-form-group>
           </div>
           <div class="row">
@@ -37,10 +62,20 @@
               label-for="telefone"
               class="mb-3 col-6"
             >
-              <b-input id="telefone" type="text" required></b-input>
+              <b-input 
+              id="telefone" 
+              type="text" 
+              required
+              v-model="doctor.telefone"
+              ></b-input>
             </b-form-group>
             <b-form-group label="E-mail" label-for="email" class="mb-3 col-6">
-              <b-input id="email" type="email" required></b-input>
+              <b-input 
+              id="email" 
+              type="email" 
+              required
+              v-model="doctor.email"
+              ></b-input>
             </b-form-group>
           </div>
           <div class="row">
@@ -52,6 +87,7 @@
               <b-form-datepicker
                 id="disponibilidadeHorario"
                 required
+                v-model="doctor.disponibilidadeHorario"
               ></b-form-datepicker>
             </b-form-group>
             <div class="col-8"></div>
@@ -77,6 +113,37 @@ export default {
   name: "Novo Médico",
   components: {
     Nav,
+  },
+  data() {
+    return {
+      doctor: {
+        nomeCompleto: "",
+        rg: "",
+        cpf: "",
+        crm: "",
+        endereco: "",
+        telefone: "",
+        email: "",
+        disponibilidadeHorario: "",
+      },
+    };
+  },
+  methods: {
+    createDoctor(event) {
+      event.preventDefault();
+      console.log("meme");
+      this.$http
+        .post("/api/users", this.doctor) 
+        .then((response) => {
+          console.log(response.data);
+          console.log(response);
+          this.$router.push("/home");
+        })
+        .catch((error) => {
+          console.error("Não foi possível realizar o Login");
+          console.error(error);
+        });
+    },
   },
 };
 </script>

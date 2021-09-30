@@ -24,6 +24,43 @@ export default {
   components: {
     Nav,
   },
+  
+  
+  
+
+
+
+
+  mounted() {
+    //axios
+    this.$http
+      //.get(url + eventPath)
+      .get("/agendamentos")
+      .then(response => {
+        response.data.forEach(item => {
+          //Campos do endereço
+          let endKeys = Object.keys(item.endereco);
+          let enderecoConcat = "";
+          //acumulador para retornar os campos do endereço concatenados
+          enderecoConcat = endKeys.reduce((acc, key, index) => {
+            let concatValue =
+              index != 0 ? ", " + item.endereco[key] : item.endereco[key];
+            return acc + concatValue;
+          }, "");
+          item.endereco = enderecoConcat;
+          this.eventos.push(item);
+        });
+        let tempCampos = Object.keys(response.data[0]);
+        this.campos = tempCampos.slice(1, 6);
+        this.campos.push("editar");
+      })
+      .catch(error => {
+        console.log("Error fetching in 'MeusEventos' page: ", error);
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
+  }
+
 };
 </script>
 

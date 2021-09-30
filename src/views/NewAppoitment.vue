@@ -3,11 +3,12 @@
     <Nav />
     <div class="container-fluid">
       <div class="my-3">
-        <b-form>
+        <b-form @submit="createAppointment">
           <b-form-group label="Paciente" label-for="paciente" class="mb-3">
             <b-form-select
               class="form-select"
               id="paciente"
+              v-model="appointment_model.paciente"
               :options="optionsPatient"
               required
             ></b-form-select>
@@ -55,10 +56,26 @@ export default {
   },
   data() {
     return {
+        appointment_model:{
+          paciente: 0,
+          medico: 0,
+        },
       optionsPatient: [{ value: 1, text: "Paciente 1" }],
       optionsDoctor: [{ value: 1, text: "Médico 1" }],
       optionsHour: [{ value: 1, text: "13:00h" }],
     };
+  },
+    methods: {
+      createAppointment(data) {
+          this.$http
+            .post("/appointments", data.appointment_model)
+            .then(response => {
+              console.log("Criado com sucesso!", response.data);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
   },
 };
 </script>
