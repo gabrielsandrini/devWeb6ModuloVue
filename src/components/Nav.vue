@@ -1,17 +1,16 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="primary">
+        <b-navbar toggleable="lg" type="dark" variant="primary" class="container-fluid">
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="#">Agendamentos</b-nav-item>
-                    <b-nav-item href="#">Pacientes</b-nav-item>
-                    <b-nav-item href="#">Médicos</b-nav-item>
-                    <b-nav-item href="#">Secretárias</b-nav-item>
+                    <b-nav-item to="/agendamentos">Agendamentos</b-nav-item>
+                    <b-nav-item to="/pacientes">Pacientes</b-nav-item>
+                    <b-nav-item to="/medicos">Médicos</b-nav-item>
                 </b-navbar-nav>
-                <b-navbar-nav class="ml-auto">
-                    <b-button variant="outline-light">Sair</b-button>
+                <b-navbar-nav id="nav-logout">
+                    <b-button variant="outline-light" to="/">Sair</b-button>
                 </b-navbar-nav>
             </b-collapse>    
         </b-navbar>
@@ -25,5 +24,7 @@ export default {
 </script>
 
 <style>
-
+    #nav-logout {
+        margin-left: auto;
+    }
 </style>
