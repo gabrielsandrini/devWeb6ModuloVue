@@ -1,10 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
-import Agendamentos from "../views/Agendamentos.vue";
-import Medicos from "../views/Medicos.vue";
-import Pacientes from "../views/Pacientes.vue";
-import Secretarias from "../views/Secretarias.vue";
+import Appoitments from "../views/Appoitments.vue";
+import Doctors from "../views/Doctors.vue";
+import Patients from "../views/Patients.vue";
+import NewAppoitment from "../views/NewAppoitment.vue";
+import NewPatient from "../views/NewPatient.vue";
+import NewDoctor from "../views/NewDoctor.vue";
 
 Vue.use(VueRouter);
 
@@ -17,22 +19,32 @@ const routes = [
   {
     path: "/agendamentos",
     name: "Agendamentos",
-    component: Agendamentos,
+    component: Appoitments,
   },
   {
     path: "/medicos",
-    name: "Medicos",
-    component: Medicos,
+    name: "Médicos",
+    component: Doctors,
   },
   {
     path: "/pacientes",
     name: "Pacientes",
-    component: Pacientes,
+    component: Patients,
   },
   {
-    path: "/secretarias",
-    name: "Secretarias",
-    component: Secretarias,
+    path: "/novo-agendamento",
+    name: "Novo Agendamento",
+    component: NewAppoitment
+  },
+  {
+    path: "/novo-paciente",
+    name: "Novo Paciente",
+    component: NewPatient
+  },
+  {
+    path: "/novo-medico",
+    name: "Novo Médico",
+    component: NewDoctor
   },
 ];
 
