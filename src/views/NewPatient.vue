@@ -73,7 +73,7 @@
               Cancelar
             </b-button>
             <b-button variant="success" type="submit">
-              Cadastrar Paciente
+              Salvar Paciente
             </b-button>
           </div>
         </b-form>
@@ -86,13 +86,13 @@
 import Nav from "../components/Nav.vue";
 
 export default {
-  name: "Novo Paciente",
+  name: "NovoPaciente",
   components: {
     Nav,
   },
   data() {
     return {
-      doctor: {
+      patient: {
         nomeCompleto: "",
         rg: "",
         cpf: "",

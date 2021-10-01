@@ -33,18 +33,33 @@ const routes = [
   },
   {
     path: "/novo-agendamento",
-    name: "Novo Agendamento",
+    name: "NovoAgendamento",
     component: NewAppoitment
   },
   {
     path: "/novo-paciente",
-    name: "Novo Paciente",
+    name: "NovoPaciente",
     component: NewPatient
   },
   {
     path: "/novo-medico",
-    name: "Novo Médico",
+    name: "NovoMédico",
     component: NewDoctor
+  },
+  {
+    path: "/editar-paciente/:id+",
+    name: "EditarPaciente",
+    component: NewPatient,
+  },
+  {
+    path: "/editar-medico/:id+",
+    name: "EditarMedico",
+    component: NewDoctor,
+  },
+  {
+    path: "/editar-agendamento/:id+",
+    name: "EditarAgendamento",
+    component: NewAppoitment,
   },
 ];
 

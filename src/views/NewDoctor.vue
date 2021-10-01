@@ -97,7 +97,7 @@
               Cancelar
             </b-button>
             <b-button variant="success" type="submit">
-              Cadastrar Médico
+              Salvar Médico
             </b-button>
           </div>
         </b-form>

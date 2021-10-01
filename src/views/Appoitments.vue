@@ -3,14 +3,29 @@
     <Nav />
     <div class="container-fluid">
       <div class="mt-3 d-flex justify-content-between">
-        <div class="d-flex align-items-center">
-          <h4><!-- dia de hoje --></h4>
-          <b-button id="dia-anterior" variant="light"><i class="fas fa-chevron-left"></i></b-button>
-          <b-button id="proximo-dia" variant="light"><i class="fas fa-chevron-right"></i></b-button>
-        </div>
         <b-button to="/novo-agendamento" variant="secondary" class="align-self-center">
           <i class="fas fa-plus"></i> Novo Agendamento
         </b-button>
+      </div>
+      <div class="my-3">
+        <b-table id="table-appoitments" hover :items="items">
+          <template v-slot:cell(acoes)="appoitment">
+            <b-button @click="editAppoitment(appoitment)" class="mx-1" variant="warning"
+              >Editar</b-button
+            >
+            <b-button @click="deleteAppoitment(appoitment)" variant="danger"
+              >Excluir</b-button
+            >
+          </template>
+        </b-table>
+        <div class="d-flex justify-content-end">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="table-appoitments"
+          ></b-pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -24,43 +39,20 @@ export default {
   components: {
     Nav,
   },
-  
-  
-  
-
-
-
-
+  data() {
+    return {
+      perPage: 10,
+      currentPage: 1,
+      items: [
+      ],
+      fields: ["id", "paciente", "medico", "data"],
+    };
+  },
   mounted() {
-    //axios
-    this.$http
-      //.get(url + eventPath)
-      .get("/agendamentos")
-      .then(response => {
-        response.data.forEach(item => {
-          //Campos do endereço
-          let endKeys = Object.keys(item.endereco);
-          let enderecoConcat = "";
-          //acumulador para retornar os campos do endereço concatenados
-          enderecoConcat = endKeys.reduce((acc, key, index) => {
-            let concatValue =
-              index != 0 ? ", " + item.endereco[key] : item.endereco[key];
-            return acc + concatValue;
-          }, "");
-          item.endereco = enderecoConcat;
-          this.eventos.push(item);
-        });
-        let tempCampos = Object.keys(response.data[0]);
-        this.campos = tempCampos.slice(1, 6);
-        this.campos.push("editar");
-      })
-      .catch(error => {
-        console.log("Error fetching in 'MeusEventos' page: ", error);
-        this.errored = true;
-      })
-      .finally(() => (this.loading = false));
+    this.$http.get("/api/appoitments").then((result) => {
+      this.items = result.data;
+    });
   }
-
 };
 </script>
 

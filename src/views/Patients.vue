@@ -13,9 +13,9 @@
       </div>
       <div class="my-3">
         <b-table id="table-patients" hover :items="items">
-          <template #cell(acoes)>
-            <b-button class="mx-1" variant="warning">Editar</b-button>
-            <b-button variant="danger">Excluir</b-button>
+          <template v-slot:cell(acoes)="patient">
+            <b-button @click="editPatient(patient)" class="mx-1" variant="warning">Editar</b-button>
+            <b-button @click="deletePatient(patient)" variant="danger">Excluir</b-button>
           </template>
         </b-table>
         <div class="d-flex justify-content-end">
@@ -44,15 +44,39 @@ export default {
       perPage: 10,
       currentPage: 1,
       items: [
-        {nome: "Paciente 1", acoes: ""},
-        {nome: "Paciente 2", acoes: ""},
       ],
-      fields: ["nome", "acoes"],
+      fields: ["id", "nome", "acoes"],
     };
   },
   computed: {
     rows() {
       return this.items.length
+    }
+  },
+  mounted() {
+    this.$http.get("/api/users").then((result) => {
+      this.items = result.data;
+    });
+  },
+  methods: {
+    editPatient(patient) {
+      this.$router.push("/editar-paciente/" + patient.item.id);
+    },
+    
+    deletePatient(patient) {
+      if (confirm("Tem certeza que deseja deletar o paciente " + patient.item.nome + "?")) {
+        this.$http
+        .post("/api/users", this.patient) 
+        .then((response) => {
+          console.log(response.data);
+          console.log(response);
+          this.$router.push("/home");
+        })
+        .catch((error) => {
+          console.error("Não foi possível realizar o Login");
+          console.error(error);
+        });
+      }
     }
   }
 };

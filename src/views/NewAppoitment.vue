@@ -37,7 +37,7 @@
               Cancelar
             </b-button>
             <b-button variant="success" type="submit">
-              Agendar Horário
+              Salvar Agendamento
             </b-button>
           </div>
         </b-form>
