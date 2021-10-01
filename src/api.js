@@ -1,11 +1,18 @@
 import axios from "axios";
 
-export default axios.create({
+const httpClient = axios.create({
   //baseURL: "https://1d92fc4d-d759-40d0-9b59-369a1c08a054.mock.pstmn.io/",
   baseURL: "http://localhost:3333",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
-  'Access-Control-Allow-Credentials':true
+  "Access-Control-Allow-Credentials": true,
 });
+
+const setTokenOnHeader = (token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+};
+
+export default httpClient;
+export { setTokenOnHeader };
