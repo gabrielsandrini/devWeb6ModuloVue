@@ -54,7 +54,7 @@ export default {
     }
   },
   mounted() {
-    this.$http.get("/api/users").then((result) => {
+    this.$http.get("/users").then((result) => {
       this.items = result.data;
     });
   },
@@ -66,7 +66,7 @@ export default {
     deletePatient(patient) {
       if (confirm("Tem certeza que deseja deletar o paciente " + patient.item.nome + "?")) {
         this.$http
-        .post("/api/users", this.patient) 
+        .post("/users", this.patient) 
         .then((response) => {
           console.log(response.data);
           console.log(response);

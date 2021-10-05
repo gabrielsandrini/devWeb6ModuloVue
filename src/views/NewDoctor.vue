@@ -117,27 +117,21 @@ export default {
   data() {
     return {
       doctor: {
-        nomeCompleto: "",
-        rg: "",
-        cpf: "",
-        crm: "",
-        endereco: "",
-        telefone: "",
+        name: "",
         email: "",
-        disponibilidadeHorario: "",
+        password_hash: "",
+        is_doctor: true,
+        is_admin: false,
       },
     };
   },
   methods: {
     createDoctor(event) {
       event.preventDefault();
-      console.log("meme");
       this.$http
-        .post("/api/users", this.doctor) 
+        .post("/users", this.doctor) 
         .then((response) => {
-          console.log(response.data);
-          console.log(response);
-          this.$router.push("/home");
+          console.log("Cadastro criado com sucesso!" + response.data)
         })
         .catch((error) => {
           console.error("Não foi possível realizar o Login");

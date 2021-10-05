@@ -3,14 +3,21 @@
     <Nav />
     <div class="container-fluid">
       <div class="mt-3 d-flex justify-content-between">
-        <b-button to="/novo-agendamento" variant="secondary" class="align-self-center">
+        <b-button
+          to="/novo-agendamento"
+          variant="secondary"
+          class="align-self-center"
+        >
           <i class="fas fa-plus"></i> Novo Agendamento
         </b-button>
       </div>
       <div class="my-3">
         <b-table id="table-appoitments" hover :items="items">
           <template v-slot:cell(acoes)="appoitment">
-            <b-button @click="editAppoitment(appoitment)" class="mx-1" variant="warning"
+            <b-button
+              @click="editAppoitment(appoitment)"
+              class="mx-1"
+              variant="warning"
               >Editar</b-button
             >
             <b-button @click="deleteAppoitment(appoitment)" variant="danger"
@@ -43,16 +50,20 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      items: [
-      ],
-      fields: ["id", "paciente", "medico", "data"],
+      rows: 10,
+      items: [],
+      fields: ["id", "user_id", "doctor_id", "date"],
     };
   },
   mounted() {
-    this.$http.get("/api/appoitments").then((result) => {
-      this.items = result.data;
-    });
-  }
+    this.$http
+      .get("/appoitments")
+      .then((res) => res.json())
+      .then(
+        (appoitments) => (this.items = appoitments),
+        (err) => console.log(err)
+      );
+  },
 };
 </script>
 

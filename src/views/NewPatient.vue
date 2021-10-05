@@ -106,7 +106,7 @@ export default {
     createPatient(event) {
       event.preventDefault();
       this.$http
-        .post("/api/users", this.patient) 
+        .post("/users", this.patient) 
         .then((response) => {
           console.log(response.data);
           console.log(response);

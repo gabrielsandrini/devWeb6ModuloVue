@@ -8,13 +8,14 @@
             <b-form-select
               class="form-select"
               id="paciente"
-              v-model="appointment_model.paciente"
+              v-model="appointment_model.user_id"
               :options="optionsPatient"
               required
             ></b-form-select>
           </b-form-group>
           <b-form-group label="Médico" label-for="medico" class="mb-3">
             <b-form-select
+              v-model="appointment_model.doctor_id"
               class="form-select"
               id="medico"
               :options="optionsDoctor"
@@ -22,15 +23,11 @@
             ></b-form-select>
           </b-form-group>
           <b-form-group label="Data" label-for="data" class="mb-3">
-            <b-form-datepicker id="data" required></b-form-datepicker>
-          </b-form-group>
-          <b-form-group label="Hora" label-for="hora" class="mb-3">
-            <b-form-select
-              class="form-select"
-              id="hora"
-              :options="optionsHour"
+            <b-form-datepicker
+              v-model="appointment_model.date"
+              id="data"
               required
-            ></b-form-select>
+            ></b-form-datepicker>
           </b-form-group>
           <div class="d-flex justify-content-end">
             <b-button variant="secondary" class="mx-3" to="/agendamentos">
@@ -56,26 +53,61 @@ export default {
   },
   data() {
     return {
-        appointment_model:{
-          paciente: 0,
-          medico: 0,
-        },
-      optionsPatient: [{ value: 1, text: "Paciente 1" }],
-      optionsDoctor: [{ value: 1, text: "Médico 1" }],
-      optionsHour: [{ value: 1, text: "13:00h" }],
+      appointment_model: {
+        date: "",
+        user_id: 0,
+        doctor_id: 0,
+      },
+      optionsPatient: [],
+      optionsDoctor: [],
     };
   },
-    methods: {
-      createAppointment(data) {
-          this.$http
-            .post("/appointments", data.appointment_model)
-            .then(response => {
-              console.log("Criado com sucesso!", response.data);
-            })
-            .catch(error => {
-              console.log(error);
+  methods: {
+    createAppointment(data) {
+      this.$http
+        .post("/appointments", data.appointment_model)
+        .then((response) => {
+          console.log("Criado com sucesso!", response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.$http
+      .get("/doctors")
+      .then((res) => res.json())
+      .then(
+        function (doctors) {
+          let optionsDoctor = [];
+          doctors.forEach((doctor) => {
+            optionsDoctor.push({
+              value: doctor.id,
+              text: doctor.name,
             });
-        }
+          });
+          this.optionsDoctor = optionsDoctor;
+        },
+        (err) => console.log(err)
+      );
+
+      this.$http
+      .get("/users")
+      .then((res) => res.json())
+      .then(
+        function (patients) {
+          let optionsPatient = [];
+          patients.forEach((patient) => {
+            optionsPatient.push({
+              value: patient.id,
+              text: patient.name,
+            });
+          });
+          this.optionsPatient = optionsPatient;
+        },
+        (err) => console.log(err)
+      );
   },
 };
 </script>

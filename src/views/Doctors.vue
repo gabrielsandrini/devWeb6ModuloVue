@@ -53,7 +53,7 @@ export default {
     };
   },
   mounted() {
-    this.$http.get("/api/doctors").then((result) => {
+    this.$http.get("/doctors").then((result) => {
       this.items = result.data;
     });
   },
@@ -74,7 +74,7 @@ export default {
         )
       ) {
         this.$http
-          .post("/api/users", this.doctor)
+          .post("/users", this.doctor)
           .then((response) => {
             console.log(response.data);
             console.log(response);
