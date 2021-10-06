@@ -5,7 +5,7 @@ const httpClient = axios.create({
   headers: {
     "Accept": "application/json",
     "Content-Type": "application/json",
-    "Autorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNfYWRtaW4iOnRydWUsImlzX2RvY3RvciI6ZmFsc2UsImlhdCI6MTYzMzQ4MjIwMSwiZXhwIjoxNjM0MDg3MDAxfQ.A3ZmHl5ExolYhCip2ZvY9HIPu-S2mmVJ4ioN4jE3YjQ"
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNfYWRtaW4iOnRydWUsImlzX2RvY3RvciI6ZmFsc2UsImlhdCI6MTYzMzU1ODMzOCwiZXhwIjoxNjM0MTYzMTM4fQ.fXVlVCNdy8Figf0kkMrVzM9LmpHXfIWtJBDCDJfPXR4"
   },
   "Access-Control-Allow-Credentials": true,
 });

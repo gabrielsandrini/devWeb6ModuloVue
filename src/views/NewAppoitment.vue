@@ -3,7 +3,7 @@
     <Nav />
     <div class="container-fluid">
       <div class="my-3">
-        <b-form @submit="createAppointment">
+        <b-form @submit.prevent="createAppointment">
           <b-form-group label="Paciente" label-for="paciente" class="mb-3">
             <b-form-select
               class="form-select"
@@ -28,6 +28,9 @@
               id="data"
               required
             ></b-form-datepicker>
+          </b-form-group>
+          <b-form-group label="Horário" label-for="horario" class="mb-3">
+            <b-form-timepicker v-model="horario" locale="pt-BR"></b-form-timepicker>
           </b-form-group>
           <div class="d-flex justify-content-end">
             <b-button variant="secondary" class="mx-3" to="/agendamentos">
@@ -58,19 +61,23 @@ export default {
         user_id: 0,
         doctor_id: 0,
       },
+      horario: "",
       optionsPatient: [],
       optionsDoctor: [],
     };
   },
   methods: {
-    createAppointment(event) {
-      event.preventDefault();
+    createAppointment() {
+      this.appointment.date = this.appointment.date + "T" + this.horario;
+      
       this.$http
         .post("/appointments", this.appointment)
-        .then((response) => {
-          console.log("Criado com sucesso!", response.data);
+        .then(() => {
+          alert("Agendamento realizado com sucesso!");
+          this.$router.push("/agendamentos");
         })
         .catch((error) => {
+          alert("Erro ao realizar agendamento.")
           console.log(error);
         });
     },

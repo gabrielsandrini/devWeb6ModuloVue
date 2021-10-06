@@ -3,7 +3,7 @@
     <Nav />
     <div class="container-fluid">
       <div class="my-3">
-        <b-form @submit="createPatient">
+        <b-form @submit.prevent="createPatient">
           <b-form-group
             label="Nome Completo"
             label-for="nomeCompleto"
@@ -103,23 +103,43 @@ export default {
         is_admin: false,
         id_doctor: false,
       },
+      id: this.$route.params.id,
     };
   },
-  methods: {
-    createPatient(event) {
-      console.log(this.patient);
-      event.preventDefault();
+  created() {
+    if (this.id) {
       this.$http
-        .post("/users", this.patient)
-        .then((response) => {
-          console.log(response.data);
-          console.log(response);
-          this.$router.push("/pacientes");
-        })
-        .catch((error) => {
-          console.error("Não foi possível realizar o cadastro do Paciente");
-          console.error(error);
-        });
+        .get(`/users/${this.id}`)
+        .then((patient) => (this.patient = patient));
+    }
+  },
+  methods: {
+    createPatient() {
+      if (this.id) {
+        this.$http
+          .put(`/users/${this.id}`, this.patient)
+          .then(() => {
+            alert("Paciente atualizado com sucesso!");
+            this.$router.push("/pacientes");
+          })
+          .catch((error) => {
+            alert(
+              "Não foi possível realizar a alteração no cadastro do paciente."
+            );
+            console.error(error);
+          });
+      } else {
+        this.$http
+          .post("/users/", this.patient)
+          .then(() => {
+            alert("Paciente cadastrado com sucesso!");
+            this.$router.push("/pacientes");
+          })
+          .catch((error) => {
+            alert("Não foi possível realizar o cadastro do paciente!");
+            console.error(error);
+          });
+      }
     },
   },
 };

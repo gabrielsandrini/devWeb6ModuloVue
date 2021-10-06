@@ -47,20 +47,19 @@ const routes = [
     component: NewDoctor
   },
   {
-    path: "/editar-paciente/:id+",
+    path: "/editar-paciente/:id",
     name: "EditarPaciente",
     component: NewPatient,
   },
   {
-    path: "/editar-medico/:id+",
+    path: "/editar-medico/:id",
     name: "EditarMedico",
     component: NewDoctor,
   },
   {
-    path: "/editar-agendamento/:id+",
-    name: "EditarAgendamento",
-    component: NewAppoitment,
-  },
+    path: "*",
+    component: Appoitments,
+  }
 ];
 
 const router = new VueRouter({

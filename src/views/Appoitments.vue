@@ -2,7 +2,7 @@
   <div>
     <Nav />
     <div class="container-fluid">
-      <div class="mt-3 d-flex justify-content-between">
+      <div class="mt-3 d-flex justify-content-end">
         <b-button
           to="/novo-agendamento"
           variant="secondary"
@@ -12,15 +12,9 @@
         </b-button>
       </div>
       <div class="my-3">
-        <b-table id="table-appoitments" hover :items="items">
-          <template v-slot:cell(acoes)="appoitment">
-            <b-button
-              @click="editAppoitment(appoitment)"
-              class="mx-1"
-              variant="warning"
-              >Editar</b-button
-            >
-            <b-button @click="deleteAppoitment(appoitment)" variant="danger"
+        <b-table id="table-appoitments" hover :items="items" :fields="fields">
+          <template #cell(acoes)="row">
+            <b-button @click="deleteAppoitment(row)" variant="danger"
               >Excluir</b-button
             >
           </template>
@@ -50,20 +44,47 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      rows: 10,
       items: [],
-      fields: ["id", "user_id", "doctor_id", "date"],
+      fields: ["id", "paciente", "medico", "date"],
     };
   },
-  created() {
-    this.$http
-      .get("/appoitments")
-      .then((res) => res.json())
-      .then(
-        (appoitments) => (this.items = appoitments),
-        (err) => console.log(err)
-      );
+  computed: {
+    rows() {
+      return this.items.length;
+    },
   },
+  created() {
+    this.$http.get("/appoitments").then((result) => {
+      result.data.forEach((element) => {
+        this.items.push({
+          id: element.id,
+          paciente: element.user_id,
+          medico: element.doctor_id,
+          date: element.date
+        });
+      });
+    });
+  },
+  methods: {
+    deleteAppoitment(row) {
+      if (
+        confirm(
+          `Tem certeza que deseja deletar o agendamento ${row.item.id}?`
+        )
+      ) {
+        this.$http
+          .delete(`/appointments/${row.item.id}`)
+          .then(() => {
+            alert("Agendamento excluído com sucesso!");
+            this.$router.push("/medicos");
+          })
+          .catch((error) => {
+            alert("Não foi possível excluir o agendamento.");
+            console.error(error);
+          });
+      }
+    },
+  }
 };
 </script>
 

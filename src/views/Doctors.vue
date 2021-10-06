@@ -12,12 +12,12 @@
         </b-button>
       </div>
       <div class="my-3">
-        <b-table id="table-doctors" hover :items="items">
-          <template v-slot:cell(acoes)="doctor">
-            <b-button @click="editDoctor(doctor)" class="mx-1" variant="warning"
+        <b-table id="table-doctors" hover :items="items" :fields="fields">
+          <template #cell(acoes)="row">
+            <b-button @click="editDoctor(row)" class="mx-1" variant="warning"
               >Editar</b-button
             >
-            <b-button @click="deleteDoctor(doctor)" variant="danger"
+            <b-button @click="deleteDoctor(row)" variant="danger"
               >Excluir</b-button
             >
           </template>
@@ -39,7 +39,7 @@
 import Nav from "../components/Nav.vue";
 
 export default {
-  name: "Médicos",
+  name: "Medicos",
   components: {
     Nav,
   },
@@ -47,14 +47,19 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      items: [
-      ],
-      fields: ["id", "name", "acoes"],
+      items: [],
+      fields: ["id", "nome", "email", "acoes"],
     };
   },
-  mounted() {
+  created() {
     this.$http.get("/doctors").then((result) => {
-      this.items = result.data;
+      result.data.forEach((element) => {
+        this.items.push({
+          id: element.id,
+          nome: element.name,
+          email: element.email,
+        });
+      });
     });
   },
   computed: {
@@ -63,25 +68,24 @@ export default {
     },
   },
   methods: {
-    editDoctor(doctor) {
-      this.$router.push("/editar-medico/" + doctor.item.id);
+    editDoctor(row) {
+      this.$router.push(`/editar-medico/${row.item.id}`);
     },
 
-    deleteDoctor(doctor) {
+    deleteDoctor(row) {
       if (
         confirm(
-          "Tem certeza que deseja deletar o médico " + doctor.item.nome + "?"
+          `Tem certeza que deseja deletar o médico ${row.item.nome}?`
         )
       ) {
         this.$http
-          .post("/users", this.doctor)
-          .then((response) => {
-            console.log(response.data);
-            console.log(response);
-            this.$router.push("/home");
+          .delete(`/users/${row.item.id}`)
+          .then(() => {
+            alert("Médico excluído com sucesso!");
+            this.$router.push("/medicos");
           })
           .catch((error) => {
-            console.error("Não foi possível realizar o Login");
+            alert("Não foi possível excluir o médico.");
             console.error(error);
           });
       }

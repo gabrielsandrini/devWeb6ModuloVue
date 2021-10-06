@@ -3,7 +3,7 @@
     <Nav />
     <div class="container-fluid">
       <div class="my-3">
-        <b-form @submit="createDoctor">
+        <b-form @submit.prevent="createDoctor">
           <b-form-group
             label="Nome Completo"
             label-for="nomeCompleto"
@@ -78,20 +78,6 @@
               ></b-input>
             </b-form-group>
           </div>
-          <div class="row">
-            <b-form-group
-              label="Disponibilidade de Horário"
-              label-for="disponibilidadeHorario"
-              class="mb-3 col-4"
-            >
-              <b-form-datepicker
-                id="disponibilidadeHorario"
-                required
-                v-model="doctor.timeAvailability"
-              ></b-form-datepicker>
-            </b-form-group>
-            <div class="col-8"></div>
-          </div>
           <div class="d-flex justify-content-end">
             <b-button variant="secondary" class="mx-3" to="/medicos">
               Cancelar
@@ -122,26 +108,47 @@ export default {
         address: "",
         telephone: "",
         email: "",
-        timeAvailability: "",
         password: "123456",
         is_doctor: true,
         is_admin: false,
       },
+      id: this.$route.params.id,
     };
   },
-  methods: {
-    createDoctor(event) {
-      event.preventDefault();
+  created() {
+    if (this.id) {
       this.$http
-        .post("/users", this.doctor)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push("/medicos");
-        })
-        .catch((error) => {
-          console.error("Não foi possível realizar o cadastro do médico");
-          console.error(error);
-        });
+        .get(`/users/${this.id}`)
+        .then((doctor) => (this.doctor = doctor));
+    }
+  },
+  methods: {
+    createDoctor() {
+      if (this.id) {
+        this.$http
+          .put(`/users/${this.id}`, this.doctor)
+          .then(() => {
+            alert("Médico atualizado com sucesso!");
+            this.$router.push("/medicos");
+          })
+          .catch((error) => {
+            alert(
+              "Não foi possível realizar a alteração no cadastro do médico."
+            );
+            console.error(error);
+          });
+      } else {
+        this.$http
+          .post("/users/", this.doctor)
+          .then(() => {
+            alert("Médico cadastrado com sucesso!");
+            this.$router.push("/medicos");
+          })
+          .catch((error) => {
+            alert("Não foi possível realizar o cadastro do médico.");
+            console.error(error);
+          });
+      }
     },
   },
 };

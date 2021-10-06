@@ -12,10 +12,14 @@
         </b-button>
       </div>
       <div class="my-3">
-        <b-table id="table-patients" hover :items="items">
-          <template v-slot:cell(acoes)="patient">
-            <b-button @click="editPatient(patient)" class="mx-1" variant="warning">Editar</b-button>
-            <b-button @click="deletePatient(patient)" variant="danger">Excluir</b-button>
+        <b-table id="table-patients" hover :items="items" :fields="fields">
+          <template #cell(acoes)="row">
+            <b-button @click="editPatient(row)" class="mx-1" variant="warning"
+              >Editar</b-button
+            >
+            <b-button @click="deletePatient(row)" variant="danger"
+              >Excluir</b-button
+            >
           </template>
         </b-table>
         <div class="d-flex justify-content-end">
@@ -43,42 +47,48 @@ export default {
     return {
       perPage: 10,
       currentPage: 1,
-      items: [
-      ],
-      fields: ["id", "nome", "acoes"],
+      items: [],
+      fields: ["id", "nome", "email", "acoes"],
     };
   },
   computed: {
     rows() {
-      return this.items.length
-    }
+      return this.items.length;
+    },
   },
   created() {
     this.$http.get("/users").then((result) => {
-      this.items = result.data;
+      result.data.forEach((element) => {
+        this.items.push({
+          id: element.id,
+          nome: element.name,
+          email: element.email,
+        });
+      });
     });
   },
   methods: {
-    editPatient(patient) {
-      this.$router.push("/editar-paciente/" + patient.item.id);
+    editPatient(row) {
+      this.$router.push(`/editar-paciente/${row.item.id}`);
     },
-    
-    deletePatient(patient) {
-      if (confirm("Tem certeza que deseja deletar o paciente " + patient.item.nome + "?")) {
+
+    deletePatient(row) {
+      if (
+        confirm(`Tem certeza que deseja deletar o paciente ${row.item.nome}?`)
+      ) {
         this.$http
-        .post("/users", this.patient) 
-        .then((response) => {
-          console.log(response.data);
-          console.log(response);
-          this.$router.push("/home");
-        })
-        .catch((error) => {
-          console.error("Não foi possível realizar o Login");
-          console.error(error);
-        });
+          .delete(`/users/${row.item.id}`)
+          .then(() => {
+            alert("Paciente excluído com sucesso!");
+            this.$router.push("/pacientes");
+          })
+          .catch((error) => {
+            alert("Não foi possível excluir o paciente.");
+            console.error(error);
+          });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
