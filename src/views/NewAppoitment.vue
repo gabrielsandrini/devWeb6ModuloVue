@@ -63,9 +63,10 @@ export default {
     };
   },
   methods: {
-    createAppointment(data) {
+    createAppointment(event) {
+      event.preventDefault();
       this.$http
-        .post("/appointments", data.appointment_model)
+        .post("/appointments", this.appointment)
         .then((response) => {
           console.log("Criado com sucesso!", response.data);
         })
@@ -75,12 +76,11 @@ export default {
     },
   },
   created() {
+    let self = this;
+
     this.$http
       .get("/doctors")
-      .then((res) => {
-        console.log(res);
-        res.json()
-      })
+      .then((response) => response.data)
       .then(
         function (doctors) {
           let optionsDoctor = [];
@@ -90,14 +90,14 @@ export default {
               text: doctor.name,
             });
           });
-          this.optionsDoctor = optionsDoctor;
+          self.optionsDoctor = optionsDoctor;
         },
         (err) => console.log(err)
       );
 
       this.$http
       .get("/users")
-      .then((res) => res.json())
+      .then((response) => response.data)
       .then(
         function (patients) {
           let optionsPatient = [];
@@ -107,7 +107,7 @@ export default {
               text: patient.name,
             });
           });
-          this.optionsPatient = optionsPatient;
+          self.optionsPatient = optionsPatient;
         },
         (err) => console.log(err)
       );

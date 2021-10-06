@@ -123,7 +123,7 @@ export default {
         telephone: "",
         email: "",
         timeAvailability: "",
-        password_hash: null,
+        password: "123456",
         is_doctor: true,
         is_admin: false,
       },

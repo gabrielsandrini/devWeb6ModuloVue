@@ -99,7 +99,7 @@ export default {
         telephone: "",
         email: "",
         medicalRecord: "",
-        password_hash: null,
+        password: "123456",
         is_admin: false,
         id_doctor: false,
       },
@@ -107,6 +107,7 @@ export default {
   },
   methods: {
     createPatient(event) {
+      console.log(this.patient);
       event.preventDefault();
       this.$http
         .post("/users", this.patient)
