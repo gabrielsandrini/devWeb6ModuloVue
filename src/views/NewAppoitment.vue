@@ -8,14 +8,14 @@
             <b-form-select
               class="form-select"
               id="paciente"
-              v-model="appointment_model.user_id"
+              v-model="appointment.user_id"
               :options="optionsPatient"
               required
             ></b-form-select>
           </b-form-group>
           <b-form-group label="Médico" label-for="medico" class="mb-3">
             <b-form-select
-              v-model="appointment_model.doctor_id"
+              v-model="appointment.doctor_id"
               class="form-select"
               id="medico"
               :options="optionsDoctor"
@@ -24,7 +24,7 @@
           </b-form-group>
           <b-form-group label="Data" label-for="data" class="mb-3">
             <b-form-datepicker
-              v-model="appointment_model.date"
+              v-model="appointment.date"
               id="data"
               required
             ></b-form-datepicker>
@@ -47,13 +47,13 @@
 import Nav from "../components/Nav.vue";
 
 export default {
-  name: "Novo Agendamento",
+  name: "NovoAgendamento",
   components: {
     Nav,
   },
   data() {
     return {
-      appointment_model: {
+      appointment: {
         date: "",
         user_id: 0,
         doctor_id: 0,
@@ -77,7 +77,10 @@ export default {
   created() {
     this.$http
       .get("/doctors")
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        res.json()
+      })
       .then(
         function (doctors) {
           let optionsDoctor = [];

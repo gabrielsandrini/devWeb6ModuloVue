@@ -13,7 +13,7 @@
               id="nomeCompleto"
               type="text"
               required
-              v-model="patient.nomeCompleto"
+              v-model="patient.name"
             ></b-input>
           </b-form-group>
           <div class="row">
@@ -44,7 +44,7 @@
                 id="telefone"
                 type="text"
                 required
-                v-model="patient.telefone"
+                v-model="patient.telephone"
               ></b-input>
             </b-form-group>
             <b-form-group label="E-mail" label-for="email" class="mb-3 col-6">
@@ -65,7 +65,7 @@
               id="prontuarioMedico"
               type="text"
               required
-              v-model="patient.prontuarioMedico"
+              v-model="patient.medicalRecord"
             ></b-input>
           </b-form-group>
           <div class="d-flex justify-content-end">
@@ -93,12 +93,15 @@ export default {
   data() {
     return {
       patient: {
-        nomeCompleto: "",
+        name: "",
         rg: "",
         cpf: "",
-        telefone: "",
+        telephone: "",
         email: "",
-        prontuarioMedico: "",
+        medicalRecord: "",
+        password_hash: null,
+        is_admin: false,
+        id_doctor: false,
       },
     };
   },
@@ -106,14 +109,14 @@ export default {
     createPatient(event) {
       event.preventDefault();
       this.$http
-        .post("/users", this.patient) 
+        .post("/users", this.patient)
         .then((response) => {
           console.log(response.data);
           console.log(response);
-          this.$router.push("/home");
+          this.$router.push("/pacientes");
         })
         .catch((error) => {
-          console.error("Não foi possível realizar o Login");
+          console.error("Não foi possível realizar o cadastro do Paciente");
           console.error(error);
         });
     },

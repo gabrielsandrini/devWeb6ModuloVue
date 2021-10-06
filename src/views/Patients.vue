@@ -53,7 +53,7 @@ export default {
       return this.items.length
     }
   },
-  mounted() {
+  created() {
     this.$http.get("/users").then((result) => {
       this.items = result.data;
     });

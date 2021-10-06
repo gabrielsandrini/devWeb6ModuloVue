@@ -49,7 +49,7 @@ export default {
       currentPage: 1,
       items: [
       ],
-      fields: ["id", "nome", "acoes"],
+      fields: ["id", "name", "acoes"],
     };
   },
   mounted() {

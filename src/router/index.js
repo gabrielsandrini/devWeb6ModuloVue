@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: "/novo-medico",
-    name: "NovoMédico",
+    name: "NovoMedico",
     component: NewDoctor
   },
   {
@@ -65,6 +65,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  mode: 'history'
 });
 
 export default router;

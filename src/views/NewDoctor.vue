@@ -9,38 +9,38 @@
             label-for="nomeCompleto"
             class="mb-3"
           >
-            <b-input 
-            id="nomeCompleto" 
-            type="text" 
-            required
-            v-model="doctor.nomeCompleto"
+            <b-input
+              id="nomeCompleto"
+              type="text"
+              required
+              v-model="doctor.name"
             ></b-input>
           </b-form-group>
           <div class="row">
             <b-form-group label="RG" label-for="rg" class="mb-3 col-6">
-              <b-input 
-              id="rg" 
-              type="text" 
-              required
-              v-model="doctor.rg"
+              <b-input
+                id="rg"
+                type="text"
+                required
+                v-model="doctor.rg"
               ></b-input>
             </b-form-group>
             <b-form-group label="CPF" label-for="cpf" class="mb-3 col-6">
-              <b-input 
-              id="cpf" 
-              type="text" 
-              required
-              v-model="doctor.cpf"
+              <b-input
+                id="cpf"
+                type="text"
+                required
+                v-model="doctor.cpf"
               ></b-input>
             </b-form-group>
           </div>
           <div class="row">
             <b-form-group label="CRM" label-for="crm" class="mb-3 col-4">
-              <b-input 
-              id="crm" 
-              type="text" 
-              required
-              v-model="doctor.crm"
+              <b-input
+                id="crm"
+                type="text"
+                required
+                v-model="doctor.crm"
               ></b-input>
             </b-form-group>
             <b-form-group
@@ -48,11 +48,11 @@
               label-for="endereco"
               class="mb-3 col-8"
             >
-              <b-input 
-              id="endereco" 
-              type="text" 
-              required
-              v-model="doctor.endereco"
+              <b-input
+                id="endereco"
+                type="text"
+                required
+                v-model="doctor.address"
               ></b-input>
             </b-form-group>
           </div>
@@ -62,19 +62,19 @@
               label-for="telefone"
               class="mb-3 col-6"
             >
-              <b-input 
-              id="telefone" 
-              type="text" 
-              required
-              v-model="doctor.telefone"
+              <b-input
+                id="telefone"
+                type="text"
+                required
+                v-model="doctor.telephone"
               ></b-input>
             </b-form-group>
             <b-form-group label="E-mail" label-for="email" class="mb-3 col-6">
-              <b-input 
-              id="email" 
-              type="email" 
-              required
-              v-model="doctor.email"
+              <b-input
+                id="email"
+                type="email"
+                required
+                v-model="doctor.email"
               ></b-input>
             </b-form-group>
           </div>
@@ -87,7 +87,7 @@
               <b-form-datepicker
                 id="disponibilidadeHorario"
                 required
-                v-model="doctor.disponibilidadeHorario"
+                v-model="doctor.timeAvailability"
               ></b-form-datepicker>
             </b-form-group>
             <div class="col-8"></div>
@@ -96,9 +96,7 @@
             <b-button variant="secondary" class="mx-3" to="/medicos">
               Cancelar
             </b-button>
-            <b-button variant="success" type="submit">
-              Salvar Médico
-            </b-button>
+            <b-button variant="success" type="submit"> Salvar Médico </b-button>
           </div>
         </b-form>
       </div>
@@ -110,7 +108,7 @@
 import Nav from "../components/Nav.vue";
 
 export default {
-  name: "Novo Médico",
+  name: "NovoMedico",
   components: {
     Nav,
   },
@@ -118,8 +116,14 @@ export default {
     return {
       doctor: {
         name: "",
+        rg: "",
+        cpf: "",
+        crm: "",
+        address: "",
+        telephone: "",
         email: "",
-        password_hash: "",
+        timeAvailability: "",
+        password_hash: null,
         is_doctor: true,
         is_admin: false,
       },
@@ -129,12 +133,13 @@ export default {
     createDoctor(event) {
       event.preventDefault();
       this.$http
-        .post("/users", this.doctor) 
+        .post("/users", this.doctor)
         .then((response) => {
-          console.log("Cadastro criado com sucesso!" + response.data)
+          console.log(response.data);
+          this.$router.push("/medicos");
         })
         .catch((error) => {
-          console.error("Não foi possível realizar o Login");
+          console.error("Não foi possível realizar o cadastro do médico");
           console.error(error);
         });
     },

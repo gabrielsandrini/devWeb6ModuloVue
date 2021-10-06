@@ -5,18 +5,20 @@
         <b-card-body>
           <b-form @submit="doLogin">
             <b-form-group label="E-mail" label-for="email" class="mb-3">
-              <b-input 
-              id="email" 
-              type="email" 
-              v-model="login.email"
-              required></b-input>
+              <b-input
+                id="email"
+                type="email"
+                v-model="login.email"
+                required
+              ></b-input>
             </b-form-group>
             <b-form-group label="Senha" label-for="senha" class="mb-3">
-              <b-input 
-              id="senha" 
-              type="password" 
-              v-model="login.password"
-              required></b-input>
+              <b-input
+                id="senha"
+                type="password"
+                v-model="login.password"
+                required
+              ></b-input>
             </b-form-group>
             <b-button type="submit" variant="primary">Entrar</b-button>
           </b-form>
@@ -47,13 +49,12 @@ export default {
       console.log(this.login.email);
       console.log(this.login.password);
 
-      
       this.$http
-        .post("/login", this.login) 
+        .post("/login", this.login)
         .then((response) => {
           console.log(response.data);
           console.log(response);
-          this.$router.push("/pacientes");
+          this.$router.push("/agendamentos");
         })
         .catch((error) => {
           console.error("Não foi possível realizar o Login");
@@ -62,11 +63,10 @@ export default {
     },
   },
 };
-
 </script>
 
 <style>
-  .card {
-      width: 18rem;
-  }
+.card {
+  width: 18rem;
+}
 </style>

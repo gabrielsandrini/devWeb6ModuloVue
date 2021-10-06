@@ -55,7 +55,7 @@ export default {
       fields: ["id", "user_id", "doctor_id", "date"],
     };
   },
-  mounted() {
+  created() {
     this.$http
       .get("/appoitments")
       .then((res) => res.json())
