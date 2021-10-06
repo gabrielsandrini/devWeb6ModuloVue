@@ -53,6 +53,7 @@ export default {
         .post("/login", this.login)
         .then((response) => {
           console.log(response.data);
+          console.log(response.data['token']);
           console.log(response);
           this.$router.push("/agendamentos");
         })
