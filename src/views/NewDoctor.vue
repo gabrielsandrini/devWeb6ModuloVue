@@ -125,6 +125,8 @@ export default {
   methods: {
     createDoctor() {
       if (this.id) {
+        this.doctor = Object.assign(this.doctor, { password: "" });
+        console.log(this.doctor);
         this.$http
           .put(`/users/${this.id}`, this.doctor)
           .then(() => {

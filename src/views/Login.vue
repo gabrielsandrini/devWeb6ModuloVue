@@ -37,7 +37,8 @@ export default {
   data() {
     return {
       login: {
-        email: "admin@admin.com",
+        //email: "admin@admin.com",
+        email: "gabriel.sandrini@outlook.com",
         password: "123456",
       },
     };

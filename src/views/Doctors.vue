@@ -82,7 +82,7 @@ export default {
           .delete(`/users/${row.item.id}`)
           .then(() => {
             alert("Médico excluído com sucesso!");
-            this.$router.push("/medicos");
+            this.$router.go();
           })
           .catch((error) => {
             alert("Não foi possível excluir o médico.");
