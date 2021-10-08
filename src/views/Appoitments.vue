@@ -94,7 +94,7 @@ export default {
           .delete(`/appointments/${row.item.id}`)
           .then(() => {
             alert("Agendamento cancelado com sucesso!");
-            this.$router.push("/agendamentos");
+            this.$router.go();
           })
           .catch((error) => {
             let message = JSON.parse(error.request.responseText).message;
