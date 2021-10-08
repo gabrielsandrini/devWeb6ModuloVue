@@ -30,7 +30,7 @@
             ></b-form-datepicker>
           </b-form-group>
           <b-form-group label="Horário" label-for="horario" class="mb-3">
-            <b-form-timepicker v-model="horario" locale="pt-BR"></b-form-timepicker>
+            <b-form-timepicker v-model="horario" locale="pt-BR" required></b-form-timepicker>
           </b-form-group>
           <div class="d-flex justify-content-end">
             <b-button variant="secondary" class="mx-3" to="/agendamentos">
@@ -69,7 +69,6 @@ export default {
   methods: {
     createAppointment() {
       this.appointment.date = this.appointment.date + "T" + this.horario;
-      
       this.$http
         .post("/appointments", this.appointment)
         .then(() => {
@@ -77,7 +76,8 @@ export default {
           this.$router.push("/agendamentos");
         })
         .catch((error) => {
-          alert("Erro ao realizar agendamento.")
+          let message = JSON.parse(error.request.responseText).message;
+          alert(`Erro ao realizar agendamento. ${message}`);
           console.log(error);
         });
     },
