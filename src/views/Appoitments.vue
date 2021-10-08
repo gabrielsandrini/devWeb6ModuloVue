@@ -15,7 +15,7 @@
         <b-table id="table-appoitments" hover :items="items" :fields="fields">
           <template #cell(acoes)="row">
             <b-button @click="deleteAppoitment(row)" variant="danger"
-              >Excluir</b-button
+              >Cancelar</b-button
             >
           </template>
         </b-table>
@@ -45,7 +45,7 @@ export default {
       perPage: 10,
       currentPage: 1,
       items: [],
-      fields: ["id", "paciente", "medico", "data", "horario"],
+      fields: ["id", "paciente", "medico", "data", "horario", "acoes"],
     };
   },
   computed: {
@@ -86,16 +86,19 @@ export default {
   methods: {
     deleteAppoitment(row) {
       if (
-        confirm(`Tem certeza que deseja deletar o agendamento ${row.item.id}?`)
+        confirm(
+          `Tem certeza que deseja cancelar o agendamento de ${row.item.paciente} do dia ${row.item.data} às ${row.item.horario}?`
+        )
       ) {
         this.$http
           .delete(`/appointments/${row.item.id}`)
           .then(() => {
-            alert("Agendamento excluído com sucesso!");
-            this.$router.push("/medicos");
+            alert("Agendamento cancelado com sucesso!");
+            this.$router.push("/agendamentos");
           })
           .catch((error) => {
-            alert("Não foi possível excluir o agendamento.");
+            let message = JSON.parse(error.request.responseText).message;
+            alert(`Não foi possível cancelar o agendamento. ${message}`);
             console.error(error);
           });
       }
