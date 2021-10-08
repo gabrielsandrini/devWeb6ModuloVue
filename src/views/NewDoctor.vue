@@ -17,7 +17,7 @@
             ></b-input>
           </b-form-group>
           <div class="row">
-            <b-form-group label="RG" label-for="rg" class="mb-3 col-6">
+            <b-form-group label="RG" label-for="rg" class="mb-3 col-4">
               <b-input
                 id="rg"
                 type="text"
@@ -25,7 +25,7 @@
                 v-model="doctor.rg"
               ></b-input>
             </b-form-group>
-            <b-form-group label="CPF" label-for="cpf" class="mb-3 col-6">
+            <b-form-group label="CPF" label-for="cpf" class="mb-3 col-4">
               <b-input
                 id="cpf"
                 type="text"
@@ -33,26 +33,12 @@
                 v-model="doctor.cpf"
               ></b-input>
             </b-form-group>
-          </div>
-          <div class="row">
             <b-form-group label="CRM" label-for="crm" class="mb-3 col-4">
               <b-input
                 id="crm"
                 type="text"
                 required
                 v-model="doctor.crm"
-              ></b-input>
-            </b-form-group>
-            <b-form-group
-              label="Endereço"
-              label-for="endereco"
-              class="mb-3 col-8"
-            >
-              <b-input
-                id="endereco"
-                type="text"
-                required
-                v-model="doctor.address"
               ></b-input>
             </b-form-group>
           </div>
@@ -66,7 +52,7 @@
                 id="telefone"
                 type="text"
                 required
-                v-model="doctor.telephone"
+                v-model="doctor.phone"
               ></b-input>
             </b-form-group>
             <b-form-group label="E-mail" label-for="email" class="mb-3 col-6">
@@ -75,6 +61,49 @@
                 type="email"
                 required
                 v-model="doctor.email"
+              ></b-input>
+            </b-form-group>
+          </div>
+          <div class="row">
+            <b-form-group
+              label="Endereço"
+              label-for="endereco"
+              class="mb-3 col-6"
+            >
+              <b-input
+                id="endereco"
+                type="text"
+                required
+                v-model="doctor.street"
+              ></b-input>
+            </b-form-group>
+            <b-form-group label="Número" label-for="numero" class="mb-3 col-6">
+              <b-input
+                id="numero"
+                type="text"
+                required
+                v-model="doctor.house_number"
+              ></b-input>
+            </b-form-group>
+          </div>
+          <div class="row">
+            <b-form-group
+              label="Complemento"
+              label-for="complemento"
+              class="mb-3 col-6"
+            >
+              <b-input
+                id="complemento"
+                type="text"
+                v-model="doctor.complement"
+              ></b-input>
+            </b-form-group>
+            <b-form-group label="Cidade" label-for="cidade" class="mb-3 col-6">
+              <b-input
+                id="cidade"
+                type="text"
+                required
+                v-model="doctor.city"
               ></b-input>
             </b-form-group>
           </div>
@@ -105,8 +134,11 @@ export default {
         rg: "",
         cpf: "",
         crm: "",
-        address: "",
-        telephone: "",
+        city: "",
+        street: "",
+        house_number: "",
+        complement: "",
+        phone: "",
         email: "",
         password: "123456",
         is_doctor: true,
@@ -118,8 +150,10 @@ export default {
   created() {
     if (this.id) {
       this.$http
-        .get(`/users/${this.id}`)
-        .then((doctor) => (this.doctor = doctor));
+        .get(`/user/${this.id}`)
+        .then((doctor) => {
+          this.doctor = doctor.data;
+        });
     }
   },
   methods: {

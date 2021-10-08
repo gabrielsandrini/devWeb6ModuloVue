@@ -44,7 +44,7 @@
                 id="telefone"
                 type="text"
                 required
-                v-model="patient.telephone"
+                v-model="patient.phone"
               ></b-input>
             </b-form-group>
             <b-form-group label="E-mail" label-for="email" class="mb-3 col-6">
@@ -65,7 +65,7 @@
               id="prontuarioMedico"
               type="text"
               required
-              v-model="patient.medicalRecord"
+              v-model="patient.medical_records_id"
             ></b-input>
           </b-form-group>
           <div class="d-flex justify-content-end">
@@ -96,9 +96,9 @@ export default {
         name: "",
         rg: "",
         cpf: "",
-        telephone: "",
+        phone: "",
         email: "",
-        medicalRecord: "",
+        medical_records_id: "",
         password: "123456",
         is_admin: false,
         id_doctor: false,
@@ -109,8 +109,8 @@ export default {
   created() {
     if (this.id) {
       this.$http
-        .get(`/users/${this.id}`)
-        .then((patient) => (this.patient = patient));
+        .get(`/user/${this.id}`)
+        .then((patient) => (this.patient = patient.data));
     }
   },
   methods: {
