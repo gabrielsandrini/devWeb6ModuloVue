@@ -10,7 +10,7 @@
                     <b-nav-item to="/medicos">Médicos</b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav id="nav-logout">
-                    <b-button variant="outline-light" to="/">Sair</b-button>
+                    <b-button variant="outline-light" @click.prevent="efetuarLogout">Sair</b-button>
                 </b-navbar-nav>
             </b-collapse>    
         </b-navbar>
@@ -20,6 +20,12 @@
 <script>
 export default {
     name: 'Nav',
+    methods: {
+        efetuarLogout() {
+            localStorage.removeItem('token');
+            this.$router.push('/');
+        },
+    },
 }
 </script>
 

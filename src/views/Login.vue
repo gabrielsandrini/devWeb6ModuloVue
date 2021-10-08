@@ -3,7 +3,8 @@
     <div class="d-flex justify-content-center align-items-center h-100">
       <b-card no-body>
         <b-card-body>
-          <b-form @submit="doLogin">
+          <b-form @submit.prevent="doLogin">
+            <b-alert :show="showAlert" variant="danger">{{ mensagemErro }}</b-alert>
             <b-form-group label="E-mail" label-for="email" class="mb-3">
               <b-input
                 id="email"
@@ -37,28 +38,27 @@ export default {
   data() {
     return {
       login: {
-        //email: "admin@admin.com",
-        email: "gabriel.sandrini@outlook.com",
+        email: "admin@admin.com",
         password: "123456",
       },
+      mensagemErro: "",
+      showAlert: false
     };
   },
   methods: {
-    doLogin(event) {
-      event.preventDefault();
-      console.log(this.login);
-      console.log(this.login.email);
-      console.log(this.login.password);
-
+    doLogin() {
       this.$http
         .post("/login", this.login)
         .then((response) => {
-          console.log(response.data);
-          console.log(response);
+          this.showAlert = false;
+          localStorage.setItem('token', response.data.token);
           this.$router.push("/agendamentos");
         })
         .catch((error) => {
-          console.error("Não foi possível realizar o Login");
+          if (error.request.status === 401) {
+            this.mensagemErro = "Login e/ou senha inválidos.";
+            this.showAlert = true;
+          }
           console.error(error);
         });
     },

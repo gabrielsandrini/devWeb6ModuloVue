@@ -15,6 +15,9 @@ const routes = [
     path: "/",
     name: "Login",
     component: Login,
+    meta: {
+      publica: true
+    }
   },
   {
     path: "/agendamentos",
@@ -66,5 +69,12 @@ const router = new VueRouter({
   routes,
   mode: 'history'
 });
+
+router.beforeEach((routeTo, routeFrom, next) => {
+  if (!routeTo.meta.publica && !localStorage.getItem('token')) {
+    return next({ path: '/' });
+  }
+  next();
+})
 
 export default router;
